@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DATA xmlns="http://www.custsystems.com/2009/plugins" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:schemaLocation="http://www.custsystems.com/2009/plugins /WEB-INF/metadata/xsd/custerp.xsd">
+	<ROWS>
+		<ROW TRIGGER_NAME="exportCertificateRequestROUND"
+			 TRIGGER_GROUP="crypto"
+			 JOB_NAME="exportCertificateRequestROUND"
+			 JOB_GROUP="crypto"
+			 TRIGGER_TYPE="CRON"
+             CRON_EXPRESSION="0 30/60 * * * ?"
+             DISABLED="false"
+			 DESCRIPTION="РАУНД: Экспорт запросов на получение сертификатов в заданный в настройках документа каталог (запуск на 30-й минуте каждого часа)">
+		</ROW>
+        <!--<ROW TRIGGER_NAME="exportCertificateRegenRequest"
+             TRIGGER_GROUP="crypto"
+             JOB_NAME="exportCertificateRegenRequest"
+             JOB_GROUP="crypto"
+             TRIGGER_TYPE="CRON"
+             CRON_EXPRESSION="0 30/60 * * * ?"
+             DISABLED="false"
+             DESCRIPTION="Экспорт запросов на перегенерацию сертификатов в заданный каталог (запуск на 30-й минуте каждого часа)">
+        </ROW>-->
+	</ROWS>
+</DATA>

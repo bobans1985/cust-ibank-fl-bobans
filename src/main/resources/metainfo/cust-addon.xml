@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<addon> 
+	<name>cust_ibank_fl_bobans</name>
+	<version>2.5</version>
+	<priority>10000</priority>
+<!--	<event name="onContentSecurityPolicyInit"
+		   class="com.custsystems.crypto.jacarta.event.JacartaContentSecurityPolicyInitiator"/>-->
+</addon>

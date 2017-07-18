@@ -1,0 +1,307 @@
+<!-- BEGIN: main -->
+<!-- BEGIN: headBegin -->
+<html>
+<head>
+	<meta http-equiv="Pragma" content="no-cache"/>
+	<meta http-equiv="Expires" content="-1"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<title>{DOC_TITLE}</title>
+	<!-- END: headBegin -->
+	<!-- BEGIN: headFavicon -->
+	<!-- END: headFavicon -->
+	<!-- BEGIN: headEnd -->
+	<style type="text/css">
+		.margin {
+			margin-left: 15mm;
+		}
+
+		.cellLTR {
+			border-left: 1px solid black;
+			border-top: 1px solid black;
+			border-right: 1px solid black;
+		}
+
+		.cellLBR {
+			border-left: 0px solid black;
+			border-bottom: 0px solid black;
+			border-right: 0px solid black;
+		}
+
+		.cellBR {
+			border-bottom: 1px solid black;
+			border-right: 1px solid black;
+		}
+
+		.cellTR {
+			border-top: 1px solid black;
+			border-right: 1px solid black;
+		}
+
+		.cellBB {
+			border: 1px solid black;
+		}
+
+		.cellLTB {
+			border-left: 1px solid black;
+			border-top: 1px solid black;
+			border-bottom: 1px solid black;
+			border-right: 1px solid black;
+		}
+
+		.cellRTB {
+			border-right: 1px solid black;
+			border-top: 1px solid black;
+			border-bottom: 1px solid black;
+		}
+
+		.text_up {
+			vertical-align: top;
+		}
+
+		.text_hcentr {
+			text-align: center;
+		}
+
+		.num_cell {
+			width: 15px;
+			height: 10px;
+			text-align: center;
+			font-size: 10pt;
+		}
+
+		.num_cell_mini {
+			width: 13px;
+			height: 3px;
+			text-align: center;
+		}
+
+		.text_hleft {
+			text-align: left;
+		}
+
+		.text_hright {
+			text-align: right;
+		}
+
+		.cellLT {
+			border-left: 1px solid black;
+			border-top: 1px solid black;
+		}
+
+		.cellLB {
+			border-left: 1px solid black;
+			border-bottom: 1px solid black;
+		}
+
+		.cellRB {
+			border-right: 1px solid black;
+			border-bottom: 1px solid black;
+		}
+
+		.cellT {
+			border-top: 1px solid black;
+		}
+
+		.cellB {
+			border-bottom: 1px solid black;
+		}
+
+		.cellR {
+			border-right: 1px solid black;
+		}
+
+		table {
+			font-size: 10pt;
+		}
+
+		td.border_top_open_contr {
+			border-top: black 1px solid;
+			border-collapse: collapse;
+		}
+
+		p.pagebreak {
+			page-break-after: always;
+		}
+	</style>
+</head>
+<body bgcolor="#FFFFFF" lang="RU">
+<!-- END: headEnd -->
+<!-- BEGIN: separator -->
+<p class="pagebreak">&#160;</p>
+<!-- END: separator -->
+<!-- BEGIN: record -->
+<table width="800" CELLPADDING="0" CELLSPACING="0" class="text_hright">
+	<tbody>
+	<tr>
+		<td style="font-size: 13pt;"><b>В ООО «банк Раунд»<br><br><br></b></td>
+	</tbody>
+</table>
+<table CELLPADDING="1px" CELLSPACING="0" width="800" class="text_hcentr">
+	<tbody>
+	<tr>
+		<td class="cellLBR" style="font-size: 13pt;font-weight: bold">Заявление о закрытии паспорта сделки<br><br><br>
+		</td>
+	</tr>
+	</tbody>
+</table>
+<table CELLPADDING="1px" CELLSPACING="0" width="800" class="margin">
+	<tbody>
+	{$F(./print/print_dealpass_nums.groovy)}
+	</tbody>
+</table>
+
+
+<table width="800" CELLPADDING="1px" CELLSPACING="0" class="margin" align="">
+	<tbody>
+	<tr>
+		<td class="cellLBR text_hcentr" width="50px" style="vertical-align: middle">
+			<table width="15" CELLPADDING="1px" cellspacing="0" class="text_hcentr" align="">
+				<tbody>
+				<tr>
+					<td class="cellLTB text_hcentr">
+						{$IF (GROUND_CODE = '7.1.1') {V} $ELSE {&#160} $ENDIF}
+					</td>
+				</tr>
+				</tbody>
+			</table>
+		</td>
+		<td class="cellLBR text_hleft" style="font-size: 12pt">Перевод паспорта сделки в связи с переводом контракта (кредитного договора) на обслуживание в другой уполномоченный банк (в другой филиал уполномоченного банка, из головного офиса в филиал уполномоченного банка, из филиала в головной офис уполномоченного банка), а также при закрытии резидентом всех расчетных счетов (п.7.1.1. Инструкции Банка России от 04.06.2012 № 138-И);<br><br>
+		</td>
+
+	</tr>
+	<tr>
+		<td class="cellLBR text_hcentr" style="vertical-align: middle">
+			<table width="15" CELLPADDING="1px" cellspacing="0" class="text_hcentr" align="">
+				<tbody>
+				<tr>
+					<td class="cellLTB text_hcentr">
+						{$IF (GROUND_CODE = '7.1.2') {V} $ELSE {&#160} $ENDIF}
+					</td>
+				</tr>
+				</tbody>
+			</table>
+		</td>
+		<td class="cellLBR text_hleft" style="font-size: 12pt">Исполнение сторонами всех обязательств по контракту (кредитному договору), включая исполнение обязательств третьим лицом – резидентом (другим лицом – резидентом) (п.7.1.2. Инструкции Банка России от 04.06.2012 № 138-И);<br><br>
+		</td>
+
+	</tr>
+	<tr>
+		<td class="cellLBR text_hcentr" style="vertical-align: middle">
+			<table width="15" CELLPADDING="1px" cellspacing="0" class="text_hcentr" align="">
+				<tbody>
+				<tr>
+					<td class="cellLTB text_hcentr">
+						{$IF (GROUND_CODE = '7.1.3') {V} $ELSE {&#160} $ENDIF}
+					</td>
+				</tr>
+				</tbody>
+			</table>
+		</td>
+		<td class="cellLBR text_hleft" style="font-size: 12pt">Уступка резидентом требования по контракту (кредитному договору) другому лицу – резиденту либо перевод долга резидентом по контракту (кредитному договору) на другое лицо – резидента (п.7.1.3. Инструкции Банка России от 04.06.2012 № 138-И);</td>
+
+	</tr>
+	<tr>
+		<td class="cellLBR text_hcentr" style="vertical-align: middle">
+			<table width="15" CELLPADDING="1px" cellspacing="0" class="text_hcentr" align="">
+				<tbody>
+				<tr>
+					<td class="cellLTB text_hcentr">
+						{$IF (GROUND_CODE = '7.1.4') {V} $ELSE {&#160} $ENDIF}
+					</td>
+				</tr>
+				</tbody>
+			</table>
+		</td>
+		<td class="cellLBR text_hleft" style="font-size: 12pt"><br>Уступка резидентом требования по контракту (кредитному договору) нерезиденту (п.7.1.4. Инструкции Банка России от 04.06.2012 № 138-И);<br><br></td>
+
+	</tr>
+	<tr>
+		<td class="cellLBR text_hcentr" style="vertical-align: middle">
+			<table width="15" CELLPADDING="1px" cellspacing="0" class="text_hcentr" align="">
+				<tbody>
+				<tr>
+					<td class="cellLTB text_hcentr">
+						{$IF (GROUND_CODE = '7.1.5') {V} $ELSE {&#160} $ENDIF}
+					</td>
+				</tr>
+				</tbody>
+			</table>
+		</td>
+		<td class="cellLBR text_hleft" style="font-size: 12pt">Исполнение (прекращение) обязательств по контракту (кредитному договору) по иным основаниям, предусмотренным законодательством Российской Федерации, не указанным в выше перечисленных пунктах (п.7.1.5. Инструкции Банка России от 04.06.2012 № 138-И);<br><br>
+		</td>
+	</tr>
+	<tr>
+		<td class="cellLRB text_hcentr" style="vertical-align: middle">
+			<table width="15" CELLPADDING="1px" cellspacing="0" class="text_hcentr" align="">
+				<tbody>
+				<tr>
+					<td class="cellLTB text_hcentr">
+						{$IF (GROUND_CODE = '7.1.6') {V} $ELSE {&#160} $ENDIF}
+					</td>
+				</tr>
+				</tbody>
+			</table>
+		</td>
+		<td class="cellLBR text_hleft" style="font-size: 12pt">Прекращение оснований, требующих оформления паспорта сделки, в том числе вследствие внесения соответствующих изменений и (или) дополнений в контракт (кредитный договор), а также в случае если паспорт сделки был ошибочно оформлен при отсутствии в контракте (кредитном договоре) оснований, требующих его оформления (п.7.1.6. Инструкции Банка России от 04.06.2012 № 138-И);<br><br>
+		</td>
+	</tr>
+	<tr>
+		<td class="cellLRB text_hcentr" style="vertical-align: middle">
+			<table width="15" CELLPADDING="1px" cellspacing="0" class="text_hcentr" align="">
+				<tbody>
+				<tr>
+					<td class="cellLTB text_hcentr">
+						{$IF (GROUND_CODE = '20.4') {V} $ELSE {&#160} $ENDIF}
+					</td>
+				</tr>
+				</tbody>
+			</table>
+		</td>
+		<td class="cellLBR text_hleft" style="font-size: 12pt">Общая сумма обязательств по кредитному договору не превышает 50 тыс. долларов США ( п.20.4.  абзац 1 Инструкции Банка России от 04.06.2012 № 138-И);<br><br>
+		</td>
+	</tr>
+	</tbody>
+</table>
+
+<table width="850" CELLPADDING="1px" CELLSPACING="0">
+	<tbody>
+	<tr>
+		<td width="70px" style="font-size: 12pt"><b>Подпись</b></td>
+		<td width="30%" style="font-size: 11pt;">{$F(/script/ibankul_curr/print/sign_name.groovy)}&#160;</td>
+	</tr>
+	</tbody>
+</table>
+
+<table CELLPADDING="1px" CELLSPACING="0" width="800" class="text_hleft">
+	<tbody>
+	<tr>
+		<td class="cellLBR" style="font-size: 12pt;">
+			{$F(/script/ibankfl/print/date2format.groovy?FIELD=DOC_DATE;FORMAT=dd.MM.yyyy г.)}<br><br></td>
+	</tr>
+	</tbody>
+</table>
+<table cellpadding="0" cellspacing="0" width="850">
+	<tr>
+		<td colspan="3">Информация уполномоченного банка</td>
+	</tr>
+	<tr>
+		<td colspan="3">{DECLINE_INFO}</td>
+	</tr>
+</table>
+<br/>
+<table width="850" border="0">
+	<tr>
+		<td colspan="3" class="border_top_open_contr">&#160;</td>
+	</tr>
+	<tr>
+		<td>&#160;</td>
+		<td align="right" style="vertical-align:bottom;">{$F(/script/ibankfl/print/stamp_es.groovy)}<br><br></td>
+		<td width="270" rowspan="2" valign="top">{$F(/script/ibankul/print/stamp_control.groovy)}</td>
+	</tr>
+</table>
+<!-- END: record -->
+<!-- BEGIN: tile -->
+</body>
+</html>
+<!-- END: tile -->
+<!-- END: main -->

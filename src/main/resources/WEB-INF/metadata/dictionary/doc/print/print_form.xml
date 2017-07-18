@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FORM xmlns="http://www.custsystems.com/2009/plugins" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.custsystems.com/2009/plugins /WEB-INF/metadata/xsd/custerp.xsd">
+	<WIDGETS>
+		<WIDGET NAME="PRINT" CLASS_REF="CLASSIC.PANEL">
+			<COMPONENTS>
+				<COMPONENT FIELDNAME="PRINT_FORMAT" CLASS_REF="COMBOBOX">
+					<PROPERTIES>
+						<PROPERTY NAME="HASEMPTY" VALUE="false"/>
+						<PROPERTY NAME="RANGE" VALUE="jr_html=HTML;jr_pdf=PDF;"/>
+						<!--<PROPERTY NAME="RANGE" VALUE="jr_html=HTML"/>-->
+					</PROPERTIES>
+				</COMPONENT>
+			</COMPONENTS>
+		</WIDGET>
+
+	</WIDGETS>
+</FORM>

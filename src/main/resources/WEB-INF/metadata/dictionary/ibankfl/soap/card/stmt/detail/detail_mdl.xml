@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MDL xmlns="http://www.custsystems.com/2009/plugins"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://www.custsystems.com/2009/plugins /WEB-INF/metadata/xsd/custerp.xsd">
+	<ORDERS>
+		<ORDER FIELDNAME="TRANS_DATETIME" SORTING="DESC"/>
+	</ORDERS>
+</MDL>

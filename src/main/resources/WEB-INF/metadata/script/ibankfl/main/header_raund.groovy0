@@ -1,0 +1,428 @@
+import com.custsystems.custerp.dictionary.CustomDictionary
+import com.custsystems.custerp.dictionary.dictionaryStorage.IDataItemModel
+import com.custsystems.custerp.docflow.docGroup.DocGroup
+import com.custsystems.custerp.docflow.tools.doclassTools.DoclassTools
+import com.custsystems.custerp.kernel.Context
+import com.custsystems.custerp.kernel.metaData.ConfigMetadataLocator
+import com.custsystems.custerp.kernel.metaData.LocalizeMetadataLocator
+import com.custsystems.custerp.kernel.tools.CfgTools
+import com.custsystems.custerp.kernel.tools.LresTools
+import com.custsystems.custerp.menu.DynamicMenu
+import com.custsystems.custtools.DataTypes
+import com.custsystems.custtools.DateTools
+import com.custsystems.custtools.StringTools
+import com.custsystems.groovy.zk.ui.Zulbuilder
+import com.custsystems.ibankfl.components.helper.ClientHelper
+import com.custsystems.ibankfl.tools.ClientTools
+import com.custsystems.mon.user.AuthTools
+import com.custsystems.mon.user.UserData
+import com.custsystems.mon.user.UserInfo
+import com.custsystems.res.types.Res
+import com.custsystems.security.systemlog.SystemlogItem
+import com.custsystems.security.systemlog.SystemlogLoader
+import com.custsystems.workspace.gateType.GateType
+import org.zkoss.zk.ui.Executions
+
+final UserData currentUser = UserData.get()
+
+String getFullname() {
+    CustomDictionary dic = Context.getDictionary("ibankul/doc/client_ul");
+    dic.addFilter("FI_ID", "ID = {0}", ClientTools.getCurrentClientWithRef());
+    dic.setBind("SHORTNAME");
+    dic.setMaxRecordCount(1);
+    dic.refreshModel();
+    final IDataItemModel model = dic.getFirstItem();
+    return model != null ? model.getString("SHORTNAME") : null;
+}
+boolean isAnonymous = currentUser.isAnonymous();
+boolean hasSysAccess = currentUser.hasSystemAccess();
+boolean hasCompactUIModeRole = currentUser.isInRoleAdditional("ROLE_COMPACT_UI_MODE");
+final List<SystemlogItem> items = SystemlogLoader.getSystemlogItems(currentUser.getName(), "LOGIN_SUCCESS", 2);
+
+String getLabel(String label) {
+    return StringTools.isEmpty(label) ? label : " "+label;
+}
+
+def makeComponent(final Res curCfg) {
+    if(curCfg == null)
+        return null;
+
+    final String componentType = CfgTools.getString(curCfg, "type");
+    if(StringTools.isEmpty(componentType))
+        return null;
+    return Zulbuilder.inst()."$componentType"() {
+        for(String keyName: curCfg.keySet()) {
+            Res compCfg = CfgTools.getSubCfg(curCfg, keyName);
+            if(compCfg != null) {
+                def subComponent = makeComponent(compCfg);
+                if(subComponent != null)
+                    subComponent.setParent(self());
+            } else if(!"type".equals(keyName)) {
+                self()."$keyName" = CfgTools.getString(curCfg, keyName);
+            }
+        }
+    }
+}
+
+resultComponent = Zulbuilder.inst().div(align: "center") {
+    div(align: "left") {
+
+        final LocalizeMetadataLocator locator = new LocalizeMetadataLocator(SCRIPT_LOCATOR, "./?service=header_raund");
+        final String loc_name = locator.toString();
+        final Res lres = LresTools.getLres(locator);
+
+        final ConfigMetadataLocator config = new ConfigMetadataLocator(SCRIPT_LOCATOR, "./?service=header_raund");
+        final String cfg_name = config.toString();
+        final Res cfg = CfgTools.getCfg(config);
+        final boolean desing = DataTypes.objectToBoolean(DESIGN);
+
+
+        grid(oddRowSclass: "myinner", style: "border-style:none;background: transparent;width: 990px;margin: 0 auto;height:116px;") {
+            // Проход по верхнеуровневым разделам и формирование колонок
+            columns() {
+                column(width: CfgTools.getString(cfg, "LOGO/WIDTH"), align: CfgTools.getString(cfg, "LOGO/ALIGN"));
+                column(width: "10px");
+                column(width: CfgTools.getString(cfg, "TITLE/WIDTH"), align: CfgTools.getString(cfg, "TITLE/ALIGN"));
+                column(width: CfgTools.getString(cfg, "CALL/WIDTH"), align: CfgTools.getString(cfg, "CALL/ALIGN"));
+                column(width: CfgTools.getString(cfg, "INFO/WIDTH"), align: CfgTools.getString(cfg, "INFO/ALIGN"));
+            }
+            rows() {
+                row(zclass: "myrow", style: "height:116px;") {
+                    final Res cfgLogo = CfgTools.getSubCfg(cfg, "LOGO");
+                    div(align: cfg.getString("LOGO/ALIGN")) {
+                        a(label: CfgTools.getString(cfgLogo, "LABEL"),
+                                image: CfgTools.getString(cfgLogo, "IMAGE"),
+                                style: CfgTools.getString(cfgLogo, "STYLE"),
+                                href: CfgTools.getString(cfgLogo, "URL"),
+                                target: CfgTools.getString(cfgLogo, "TARGET", "_blank"));
+                    }
+                    label();
+                    final Res cfgTitle = CfgTools.getSubCfg(cfg, "TITLE");
+
+
+                    grid(oddRowSclass: "myinner", style: "border-style:none;background: transparent;width: 540px;\n" +
+                            "z-index: 200000;\n" +
+                            "top: 24px;\n" +
+                            "position: absolute;" +
+                            "z-index:12 !important;") {
+                        rows(){
+                            if (!isAnonymous) {
+
+                                row(zclass: "myrow") {
+
+                                    div(zclass: "", style: "float: left;position: relative;")
+                                            {
+
+                                                div(zclass: "" , style: "float:left;"){
+                                                    div(zclass: "TimeDate") {
+                                                        if (CfgTools.getBoolean(cfg, "CENTER/SHOW_TIMER", true)) {
+                                                            final dateFormat = CfgTools.getString(cfg, "CENTER/DATE_FORMAT", "dd.MM.yyyy");
+                                                            final timeFormat = CfgTools.getString(cfg, "CENTER/TIME_FORMAT", "HH:mm");
+                                                            def now = DateTools.getMacroValue("NOW");
+                                                            hbox() {
+                                                                div(zclass: "date_header", style: ""){
+                                                                    if (!StringTools.isEmpty(dateFormat)) {
+                                                                        label(id: "cur_date",
+                                                                                value: DateTools.date2str(now, dateFormat),
+                                                                                style: "")
+
+                                                                    }
+
+
+                                                                    if (!StringTools.isEmpty(timeFormat)) {
+                                                                        label(id: "cur_time",
+                                                                                value: DateTools.time2str(now, timeFormat),
+                                                                                style: "")
+                                                                    }
+
+                                                                }
+                                                                timer(delay: CfgTools.getInteger(cfg, "CENTER/TIMER_INTERVAL", 30000),
+                                                                        repeats: true) {
+                                                                    event('onTimer') {
+                                                                        def nowTime = DateTools.getMacroValue("NOW");
+                                                                        if (!StringTools.isEmpty(dateFormat))
+                                                                            cur_date.value = DateTools.date2str(nowTime, dateFormat);
+                                                                        if (!StringTools.isEmpty(timeFormat))
+                                                                            cur_time.value = DateTools.time2str(nowTime, timeFormat);
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+
+                                                div(zclass: "separator_header")
+
+                                                div(zclass: "", style: "float:right;margin-left: 5px;line-height: 21px;"){
+                                                    div(zclass: "show_user", style: ""){
+                                                        if (CfgTools.getBoolean(cfg, "CENTER/SHOW_USER", true)) {
+
+                                                            String userName = currentUser.getName();
+                                                            final UserInfo info = new UserInfo(currentUser.getName());
+                                                            if (!StringTools.isEmpty(info.getRealName()))
+                                                                userName = info.getRealName();
+                                                            else if (!StringTools.isEmpty(info.getUserAlias()))
+                                                                userName = info.getUserAlias();
+
+                                                            label(value: userName, style: "")
+                                                            final String fullname = this.getFullname();
+                                                            if (StringTools.isNotEmpty(fullname))
+                                                                label(value: "  ")
+                                                            label(value: fullname)
+
+                                                        }
+
+                                                    }
+
+                                                    div(zclass: "last_session"){
+
+                                                        if(items.size() > 1) {
+                                                            SystemlogItem item = items.get(1);
+                                                            label(value: DateTools.date2str(item.getStamp()));
+                                                            label(value: " IP: ")
+                                                            label(value: item.getIp());
+                                                        }
+                                                    }
+                                                    div(zclass: "", style: "margin-top: 13px;"){
+                                                        if(!UserData.get().isAnonymous()){
+
+                                                            if(!desing) {
+
+                                                                if (!isAnonymous && hasSysAccess) {
+
+                                                                    if(!self().getChildren().isEmpty())
+                                                                        label(value: "");
+                                                                    a(label: LresTools.getString(lres, loc_name, "MENU_SERVICE"),
+
+                                                                            href: "#uid=setting/raund_userservice", style: "font-size: 14px;color: #229b06 !important;text-decoration: underline;margin-right: 5px;");
+
+                                                                }
+
+                                                                if (isAnonymous || hasCompactUIModeRole) {
+                                                                    if(!self().getChildren().isEmpty())
+                                                                        label(value: "");
+                                                                    a(label: LresTools.getString(lres, loc_name, "UI_MODE/COMPACT")) {
+                                                                        event('onClick') {
+                                                                            currentUser.setGateType(GateType.PDA);
+                                                                            Executions.sendRedirect(null);
+                                                                        }
+                                                                    }
+                                                                }
+
+                                                                if(!self().getChildren().isEmpty())
+                                                                    label(value: "");
+                                                                if(!isAnonymous) {
+                                                                    a(label:  LresTools.getString(lres, loc_name, "LOGOUT"),
+                                                                            href:"/j_spring_security_logout", style: "font-size: 14px;color: #229b06;text-decoration: underline;")
+                                                                } else{
+                                                                    a(label:  LresTools.getString(lres, loc_name, "LOGIN"),
+                                                                            href:"#id=login")
+                                                                }
+                                                            } else {
+                                                                a(label:  LresTools.getString(lres, loc_name, "DESIGN_OFF"),
+                                                                        href:"/")
+                                                            }
+
+
+                                                        }
+                                                        else{
+                                                            return !UserData.get().isAnonymous();
+                                                        }
+                                                    }
+                                                }
+
+                                            }
+                                }
+                            }
+
+                            /*
+                                                           // Программное уничтожение сессии безопасности
+                                                           row(zclass: "myrow", height: "28pt") {
+                                                               div() {
+                                                                   button(label: "kill session") {
+                                                                       event('onClick') {
+                                                                           org.springframework.security.core.context.SecurityContextHolder.getContext().setAuthentication(null);
+                                                                       }
+                                                                   }
+                                                               }
+                                                           }
+                                                           */
+                            /*
+                                                           // Чтение/подмена сессии безопасности
+                                                           row(zclass: "myrow", height: "28pt") {
+                                                               div() {
+                                                                   def jsession = textbox(value: com.custsystems.mon.utils.CookieUtils.getSimpleCookieValue("JSESSIONID"))
+                                                                   button(label: "set") {
+                                                                       event('onClick') {
+                                                                           com.custsystems.mon.utils.CookieUtils.setSimpleCookie("JSESSIONID", jsession.getValue())
+                                                                       }
+                                                                   }
+                                                               }
+                                                           }
+                                                           */
+
+                        }
+                    }
+
+                    grid(oddRowSclass: "myinner", style: "background: transparent;position: absolute;left: 52%;;top: 39px;margin-left: -155px;width: 317px !important;border:none;") {
+                        rows(){
+                            if(!UserData.get().isAnonymous()){
+                                return !UserData.get().isAnonymous();
+                            }
+                            else{
+
+                                row(zclass: "myrow", height: "28pt") {
+                                    label(value: CfgTools.getString(cfgTitle, "LABEL1"), style: "font-size: 14px;font-weight: normal;font-family:MyriadPro-Regular !important;  font-weight: normal;  font-style: normal;letter-spacing: normal;");
+                                    a(label: "Сайт банка", href:"http://www.round.ru", target: "_blank", style: "font-size: 14px;color: #22a106;text-decoration:underline;font-family: MyriadPro-Regular !important;  font-weight: normal;  font-style: normal;letter-spacing: normal;")
+                                }
+                            }
+
+
+                            row(zclass: "myrow") {
+                                boolean isFl = currentUser.isInRoleAdditional("ROLE_CLIENTFL_USER");
+                                boolean isUl = currentUser.isInRoleAdditional("ROLE_CLIENTUL_USER");
+                                if(isFl && !isUl)
+                                    label(value: CfgTools.getString(cfgTitle, "LABEL3_FL"), style: "color: gray;");
+                                else if(!isFl && isUl)
+                                    label(value: CfgTools.getString(cfgTitle, "LABEL3_UL"), style: "color: gray;");
+                                else
+                                    label(value: CfgTools.getString(cfgTitle, "LABEL3"), style: "color: gray;");
+                            }
+
+                        }
+                    }
+
+                    final Res cfgCall = CfgTools.getSubCfg(cfg, "CALL");
+                    grid(oddRowSclass: "myinner", style: "border-style:none;background: transparent;text-align: right;") {
+                        rows(){
+                            row(zclass: "myrow", height: "22pt") {
+                                hlayout() {
+                                    label(value: CfgTools.getString(cfgCall, "LABEL1"), style: "font-size:14px; color: #000;font-weight: normal;font-family: MyriadPro-Regular !important;");
+                                }
+                            }
+                            row(zclass: "myrow", height: "28pt") {
+                                label(value: CfgTools.getString(cfgCall, "PHONE"), style: "font-size:18px; color: #000;font-weight: bold;font-family: MyriadPro-Regular !important;");
+
+                            }
+
+                        }
+                    }
+
+                }
+            }
+        }
+
+        if (currentUser.isInRole("ROLE_BANKFL_CLIENT_HELPER")) {
+            div(align: "left") {
+                final ClientHelper clientHelper = new ClientHelper();
+                clientHelper.setAlign("center");
+                clientHelper.setHflex("1");
+                clientHelper.setStyle("padding-bottom: 10px;");
+                clientHelper.setParent(self());
+            }
+        }
+    }
+    if(AuthTools.isAvailable("ROLE_ADMIN;ROLE_SECURITY_ADMIN;ROLE_BANKFL_ADMIN;ROLE_BANKUL_ADMIN")) {
+        final String param = Executions.getCurrent().getParameter("design");
+        boolean design = param != null ? DataTypes.objectToBoolean(param) : false;
+        if(!design) {
+            div(align: "left") {
+                final StringBuffer sb = new StringBuffer();
+                if(currentUser!=null) {
+                    for(String role: currentUser.getRoles()){
+                        final String curMenu = CfgTools.getString(CfgTools.SECURITY, "WORKSPACE/ROLES_MENU/"+role);
+                        StringTools.append(sb, curMenu, ";");
+                    }
+                }
+                if(sb.length() > 0) {
+                    def menubar = (new DynamicMenu(sb.toString())).getMenubar();
+                    menubar.autodrop = true;
+                    menubar.setParent(self());
+                }
+            }
+            separator();
+        }
+    }
+
+
+    if(!UserData.get().isAnonymous() && UserData.get().hasSystemAccess()){
+
+        div(zclass: "bg_menu"){
+
+            menubar(zclass: "z-menubar-hor" ,autodrop:true){
+
+                menuitem(href:"#id=g" , label:"Главная");
+
+                menu(zclass: "separator_menu")
+                menu(label: "Документы"){
+                    menupopup(zclass:"doc"){
+                        menuitem( href:"#uid=req&dic=acc/oper" , label:"Операции по счёту");
+                        if(!(new DocGroup("pay_ul").getDocClasses().isEmpty()))
+                            menuitem( href:"#uid=document&module=ibankul&action=btnlist&types_ref=pay_ul" , label:"Платёжные документы");
+                        if(!(new DocGroup("stmnt").getDocClasses().isEmpty()))
+                            menuitem( href:"#uid=document&module=ibankfl&action=btnlist&types_ref=stmnt" , label:"Выписки по счету");
+                        if (DoclassTools.isVisible("ibankul", "online_statement")) {
+                        	menuitem(href: "#uid=accservice_ul/stmnt_req" , label: "Выписки по счёту (обновленные)");
+                        }
+                        if(!(new DocGroup("curr_control").getDocClasses().isEmpty()))
+                            menuitem( href:"#uid=document&module=ibankul_curr&action=btnlist&types_ref=curr_control" , label:"Валютный контроль");
+                        if(!(new DocGroup("zp_proj").getDocClasses().isEmpty()))
+                            menuitem( href:"#uid=document&module=ibankul_zp&action=btnlist&types_ref=zp_proj" , label:"Зарплатный проект");
+                        if (AuthTools.isAvailable("ROLE_CLIENTUL_USER;")) {
+                            if(DoclassTools.isVisible("ibankul", "request_cancel"))
+                                menuitem(href:"#uid=document&types_ref=req_ul&module=ibankul&paction=btnlist&&action=btnlist&type=request_cancel" , label:"Заявление на отзыв документов");
+                            if(DoclassTools.isVisible("ibankul", "request_open_contr"))
+                                menuitem(href:"#uid=contrservice_ul/opencontr_ul" , label:"Подобрать вклад");
+                            else if(DoclassTools.isVisible("ibankul", "request_open_contr"))
+                                menuitem(href:"#uid=document&types_ref=req_ul&module=ibankul&paction=btnlist&&action=btnlist&type=request_open_contr" , label:"Заявления на размещение депозита");
+                        }
+                    }
+                }
+                menu(zclass: "separator_menu")
+                menu(label: "Платежи"){
+                    menupopup(zclass:"doc"){
+                        if (AuthTools.isAvailable("ROLE_CLIENTUL_USER;")) {
+                            if(DoclassTools.isVisible("ibankul", "doc_platpor"))
+                                menuitem(href:"#uid=document&action=create&module=ibankul&type=doc_platpor&paction=btnlist&types_ref=pay_ul" , label:"Платежное поручение");
+                            if(DoclassTools.isVisible("ibankul_curr", "doc_currbuy"))
+                                menuitem(href:"#uid=document&action=create&module=ibankul_curr&type=doc_currbuy&paction=btnlist&types_ref=pay_ul" , label:"Поручение на покупку валюты");
+                            if(DoclassTools.isVisible("ibankul_curr", "doc_currsell"))
+                                menuitem(href:"#uid=document&action=create&module=ibankul_curr&type=doc_currsell&paction=btnlist&types_ref=pay_ul" , label:"Поручение на продажу валюты");
+                            if(DoclassTools.isVisible("ibankul_curr", "doc_platpor_conv"))
+                                menuitem(href:"#uid=document&action=create&module=ibankul_curr&type=doc_platpor_conv&paction=btnlist&types_ref=pay_ul" , label:"Поручение на конверсию");
+                            if(DoclassTools.isVisible("ibankul_curr", "doc_transit_pay_doc"))
+                                menuitem(href:"#uid=document&action=create&select_context=mode:ALWAYS&module=ibankul_curr&type=doc_transit_pay_doc&paction=btnlist&types_ref=pay_ul" , label:"Распоряжение на списание с транзитного счета",zclass: "dep");
+                            if(DoclassTools.isVisible("ibankul_curr", "doc_platpor_curr"))
+                                menuitem(href:"#uid=document&action=create&select_context=mode:ALWAYS&module=ibankul_curr&type=doc_platpor_curr&paction=btnlist&types_ref=pay_ul" , label:"Валютный перевод");
+
+                            if(DoclassTools.isVisible("ibankul", "doc_platpor") || DoclassTools.isVisible("ibankul_curr", "doc_platpor_curr"))
+                                menuitem(href:"#uid=import_doc" , label:"Импорт документов");
+                        }
+                    }
+                }
+
+                menu(zclass: "separator_menu") {}
+                menu(label: "Почта"){
+                    menupopup(zclass:"doc"){
+                        if (AuthTools.isAvailable("ROLE_CLIENTUL_USER;")) {
+                            if(!(new DocGroup("mail_ul").getDocClasses().isEmpty()))
+                                menuitem(href:"#uid=document&module=ibankfl&action=btnlist&types_ref=mail_ul" , label:"Переписка с банком");
+                        }
+                        if (AuthTools.isAvailable("ROLE_CLIENTFL_USER;")) {
+                            if(!(new DocGroup("mail").getDocClasses().isEmpty()))
+                                menuitem(href:"#uid=document&module=ibankfl&action=btnlist&types_ref=mail" , label:"Переписка с банком");
+                        }
+                    }
+                }
+                if(DoclassTools.isVisible("doc", "template")) {
+                    menu(zclass: "separator_menu")
+                    menuitem(href:"#uid=document&module=doc&type=template&action=list" , label:"Шаблоны");
+                }
+            }
+        }
+
+    }
+
+
+
+}

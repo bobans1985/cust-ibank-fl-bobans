@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIGS xmlns="http://www.custsystems.com/2009/plugins"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.custsystems.com/2009/plugins /WEB-INF/metadata/xsd/custerp.xsd">
+
+    <!-- Список ролей, для которых отобразить каптчу -->
+    <C NAME="SHOW_CAPTCHA_ROLES" VALUE="ROLE_ANONYMOUS;ROLE_ADDITIONAL_AUTH"/>
+
+</CONFIGS>

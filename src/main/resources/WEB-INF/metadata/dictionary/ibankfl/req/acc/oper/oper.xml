@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIGS xmlns="http://www.custsystems.com/2009/plugins"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.custsystems.com/2009/plugins /WEB-INF/metadata/xsd/custerp.xsd">
+
+   <!-- <C NAME="SHOW_DATES_FOR_CARD_OPER" VALUE="false"/>-->
+
+
+</CONFIGS>

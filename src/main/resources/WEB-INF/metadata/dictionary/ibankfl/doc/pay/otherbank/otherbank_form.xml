@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FORM xmlns="http://www.custsystems.com/2009/plugins" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.custsystems.com/2009/plugins /WEB-INF/metadata/xsd/custerp.xsd">
+    <WIDGETS>
+
+        <WIDGET NAME="UPDATE_COMPACT" CLASS_REF="ITEM">
+            <COMPONENTS>
+                <COMPONENT FIELDNAME="DOC_DATE" READ_ONLY="true"/>
+            </COMPONENTS>
+        </WIDGET>
+
+        <WIDGET NAME="UPDATE_HEAD" CLASS_REF="LINE">
+            <COMPONENTS>
+                <COMPONENT FIELDNAME="DOC_DATE" READ_ONLY="true"/>
+            </COMPONENTS>
+        </WIDGET>
+
+    </WIDGETS>
+</FORM>

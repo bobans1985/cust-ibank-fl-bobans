@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FORM xmlns="http://www.custsystems.com/2009/plugins" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.custsystems.com/2009/plugins /WEB-INF/metadata/xsd/custerp.xsd">
+    <WIDGETS>
+
+        <WIDGET NAME="LIST" CLASS_REF="LIST" ROLES="ROLE_ADMIN;ROLE_BANKUL_ADMIN;ROLE_BANKUL_USER">
+            <COLUMNS>
+                <COLUMN FIELDNAME="SHORTNAME" WIDTH="150px" VISIBLE="false"/>
+            </COLUMNS>
+
+            <FILTER_PANEL>
+                <COMPONENT FIELDNAME="SHORTNAME"/>
+                <COMPONENT FIELDNAME="INN"/>
+                <COMPONENT FIELDNAME="EXT_REF"/>
+            </FILTER_PANEL>
+        </WIDGET>
+
+
+    </WIDGETS>
+</FORM>
