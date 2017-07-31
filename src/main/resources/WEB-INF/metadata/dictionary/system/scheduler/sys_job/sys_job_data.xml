@@ -3,7 +3,7 @@
 	  xsi:schemaLocation="http://www.custsystems.com/2009/plugins /WEB-INF/metadata/xsd/custerp.xsd">
 	<ROWS>
         <ROW JOB_NAME="exportCertificateRequestROUND" JOB_GROUP="crypto"
-             JOB_CLASS_NAME="main.java.com.custsystems.cryptocore.scheduler.jobs.CertificateRequestExportJobRound"
+             JOB_CLASS_NAME="com.custsystems.cryptocore.scheduler.jobs.CertificateRequestExportJobRound"
              DESCRIPTION="РАУНД: Экспорт запросов на получение сертификатов в заданный в настройках документа каталог"/>
         <!--<ROW JOB_NAME="exportCertificateRegenRequest" JOB_GROUP="crypto"
              JOB_CLASS_NAME="com.custsystems.cryptocore.scheduler.jobs.CertificateRegenRequestsExportJob"
