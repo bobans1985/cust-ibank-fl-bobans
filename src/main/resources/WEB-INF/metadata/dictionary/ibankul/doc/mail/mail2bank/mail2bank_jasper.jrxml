@@ -179,7 +179,7 @@
 				</staticText>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 					<reportElement x="92" y="148" width="462" height="15"/>
-					<textFieldExpression><![CDATA[com.custsystems.print.jasper.JasperUtils.getSignName($F{JASPER_CURRENT_RECORD})]]></textFieldExpression>
+					<textFieldExpression><![CDATA[com.custsystems.print.jasper.functions.CustJasper.script("/WEB-INF/metadata/script/ibankfl/document/getStampOwners.groovy",$F{JASPER_CURRENT_RECORD})]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement x="34" y="148" width="55" height="15"/>
